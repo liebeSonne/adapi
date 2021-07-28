@@ -1,0 +1,13 @@
+/vendor/
+
+.buildpath
+.project
+.settings/
+.idea
+
+composer.lock
+composer.phar
+
+/*.sqlite
+
+/config/config.local.php

@@ -1,0 +1,38 @@
+{
+    "name": "liebesonne/adapi",
+    "description": "API рекламных объявлений",
+    "authors": [
+        {
+            "name": "liebeSonne"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "ext-sqlite3": "*"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.93",
+        "phpcompatibility/php-compatibility": "^9.3"
+    },
+    "autoload": {
+        "psr-4": {"App\\": "src/"}
+    },
+    "scripts": {
+        "php-server" : "php -S 127.0.0.1:8080 -t public",
+        "dev-get-show": "curl -i -X 'GET' -H 'accept: application/json' http://127.0.0.1:8080/ads/relevant",
+        "dev-post-add": "curl -i -X POST -H 'Content-Type: application/x-www-form-urlencoded' http://127.0.0.1:8080/ads -d 'text=Advertisement1&price=300&limit=1000&banner=https://linktoimage.png'",
+        "dev-post-edit": "curl -i -X POST -H 'Content-Type: application/x-www-form-urlencoded' http://127.0.0.1:8080/ads/1 -d 'text=Advertisement1&price=450&limit=1200&banner=https://linktoimage.png'",
+        "build": [
+            "php ./scripts/install.php"
+        ],
+        "inspect-php": "./vendor/bin/phpcs -p . --standard=PHPCompatibility --runtime-set testVersion 7.1 --extensions=php --ignore=./vendor",
+        "inspect-php2": "./vendor/bin/phpcs -p . --standard=PHPCompatibility --runtime-set testVersion 7.1 --extensions=php --ignore=./vendor",
+        "inspect-psr12": "./vendor/bin/phpcs -p . --standard=PSR12 --ignore=./vendor",
+        "inspect": [
+            "@inspect-php",
+            "@inspect-psr12"
+        ],
+        "stan-analyse": "./vendor/bin/phpstan analyse src tests public config",
+        "stan-analyse-hard": "./vendor/bin/phpstan analyse -l 6 src tests public config"
+    }
+}
