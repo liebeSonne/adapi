@@ -18,7 +18,7 @@
         "psr-4": {"App\\": "src/"}
     },
     "scripts": {
-        "php-server" : "php -S 127.0.0.1:8080 -t public",
+        "php-server" : "php -S 0.0.0.0:8080 -t public",
         "dev-get-show": "curl -i -X 'GET' -H 'accept: application/json' http://127.0.0.1:8080/ads/relevant",
         "dev-post-add": "curl -i -X POST -H 'Content-Type: application/x-www-form-urlencoded' http://127.0.0.1:8080/ads -d 'text=Advertisement1&price=300&limit=1000&banner=https://linktoimage.png'",
         "dev-post-edit": "curl -i -X POST -H 'Content-Type: application/x-www-form-urlencoded' http://127.0.0.1:8080/ads/1 -d 'text=Advertisement1&price=450&limit=1200&banner=https://linktoimage.png'",
@@ -33,6 +33,9 @@
             "@inspect-psr12"
         ],
         "stan-analyse": "./vendor/bin/phpstan analyse src tests public config",
-        "stan-analyse-hard": "./vendor/bin/phpstan analyse -l 6 src tests public config"
+        "stan-analyse-hard": "./vendor/bin/phpstan analyse -l 6 src tests public config",
+        "docker-build": "docker build -t liebesonne/adapi .",
+        "docker-run": "docker run --name adapi -d -p 8080:8080 liebesonne/adapi",
+        "docker-stop": "docker rm -f adapi"
     }
 }
