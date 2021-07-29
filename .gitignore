@@ -11,3 +11,5 @@ composer.phar
 /*.sqlite
 
 /config/config.local.php
+
+phpunit.xml

@@ -49,3 +49,16 @@ $ php -S 127.0.0.1:8080 -t public
 
 [Протокол API](./docs/protocol.md).
 
+## Тестирование
+
+Указать путь к api `api_base_url` в `./phpunit.xml`, для phpunit тестов.
+
+```
+<env name="api_base_url" value="http://127.0.0.1:8080"/>
+```
+
+Запустить тесты
+
+```
+$ composer test
+```

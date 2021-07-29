@@ -14,10 +14,18 @@
         "phpstan/phpstan": "^0.12.93",
         "phpcompatibility/php-compatibility": "^9.3",
         "vimeo/psalm": "^4.8",
-        "squizlabs/php_codesniffer": "^3.6"
+        "squizlabs/php_codesniffer": "^3.6",
+        "phpunit/phpunit": "^9.5",
+        "spatie/phpunit-watcher": "^1.23",
+        "guzzlehttp/guzzle": "^7.3"
     },
     "autoload": {
         "psr-4": {"App\\": "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "prefer-stable" : true,
     "scripts": {
@@ -43,10 +51,13 @@
         "docker-build": "docker build -t liebesonne/adapi .",
         "docker-run": "docker run --name adapi -d -p 8080:8080 liebesonne/adapi",
         "docker-stop": "docker rm -f adapi",
+        "phpunit": "./vendor/bin/phpunit",
         "test": [
             "@phpcs",
             "@phpstan",
-            "@pslam"
-        ]
+            "@pslam",
+            "@phpunit"
+        ],
+        "test:watch": "phpunit-watcher watch"
     }
 }
