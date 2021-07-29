@@ -46,10 +46,10 @@ class AdsApi extends ApiBase implements ResourceInterface
         $params = $this->request->getRequestParams();
         $ad = new Ad();
 
-        $ad->text = (string) $params['text'] ?? '';
-        $ad->price = (int) $params['price'] ?? 0;
-        $ad->limit = (int) $params['limit'] ?? 0;
-        $ad->banner = (string) $params['banner'] ?? '';
+        $ad->text = (string) ($params['text'] ?? '');
+        $ad->price = (int) ($params['price'] ?? 0);
+        $ad->limit = (int) ($params['limit'] ?? 0);
+        $ad->banner = (string) ($params['banner'] ?? '');
 
         return $ad;
     }

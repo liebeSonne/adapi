@@ -53,7 +53,7 @@ class AdValidator implements ValidatorInterface
 
         if (array_key_exists('limit', $data)) {
             if ($data['limit'] < 0) {
-                $errors[] = 'Invalid imit';
+                $errors[] = 'Invalid limit';
             }
         }
 

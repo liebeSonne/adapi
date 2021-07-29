@@ -132,11 +132,15 @@ GET /ads/relevant HTTP/1.1
 code | message
 -----|------------------------
  200 | Ok
- 404 | Invalid rout 
+ 404 | Invalid rout
  404 | Invalid resource
  405 | Invalid resource method
  400 | Invalid argument
+ 400 | Invalid text
+ 400 | Invalid banner link
+ 400 | Invalid Invalid limit
+ 400 | Invalid price
  404 | Can not show
  500 | Can not add
- 500 | Can not edit 
+ 500 | Can not edit
  500 | Server Error
