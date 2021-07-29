@@ -12,7 +12,9 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.93",
-        "phpcompatibility/php-compatibility": "^9.3"
+        "phpcompatibility/php-compatibility": "^9.3",
+        "vimeo/psalm": "^4.8",
+        "squizlabs/php_codesniffer": "^3.6"
     },
     "autoload": {
         "psr-4": {"App\\": "src/"}
@@ -26,16 +28,22 @@
             "php ./scripts/install.php"
         ],
         "inspect-php": "./vendor/bin/phpcs -p . --standard=PHPCompatibility --runtime-set testVersion 7.1 --extensions=php --ignore=./vendor",
-        "inspect-php2": "./vendor/bin/phpcs -p . --standard=PHPCompatibility --runtime-set testVersion 7.1 --extensions=php --ignore=./vendor",
         "inspect-psr12": "./vendor/bin/phpcs -p . --standard=PSR12 --ignore=./vendor",
         "inspect": [
             "@inspect-php",
             "@inspect-psr12"
         ],
-        "stan-analyse": "./vendor/bin/phpstan analyse src tests public config",
-        "stan-analyse-hard": "./vendor/bin/phpstan analyse -l 6 src tests public config",
+        "phpstan": "./vendor/bin/phpstan analyse src tests public config",
+        "phpstan-hard": "./vendor/bin/phpstan analyse -l 6 src tests public config",
+        "pslam": "./vendor/bin/psalm",
+        "phpcs": "./vendor/bin/phpcs --standard=PSR12 . --ignore=./vendor",
         "docker-build": "docker build -t liebesonne/adapi .",
         "docker-run": "docker run --name adapi -d -p 8080:8080 liebesonne/adapi",
-        "docker-stop": "docker rm -f adapi"
+        "docker-stop": "docker rm -f adapi",
+        "test": [
+            "@phpcs",
+            "@phpstan",
+            "@pslam"
+        ]
     }
 }
