@@ -1,7 +1,9 @@
 <?php
 
-if (file_exists(__DIR__ . '/config.local.php')) {
-    return include __DIR__ . '/config.local.php';
+$localFile = __DIR__ . '/config.local.php';
+
+if (file_exists($localFile)) {
+    return include $localFile;
 }
 
 return include __DIR__ . '/config.default.php';
