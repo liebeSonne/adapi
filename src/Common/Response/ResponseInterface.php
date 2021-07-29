@@ -11,10 +11,10 @@ interface ResponseInterface
     /**
      * Добавление заголовка.
      *
-     * @param string $geader
+     * @param string $header
      * @return ResponseInterface
      */
-    public function addHeader(string $geader): ResponseInterface;
+    public function addHeader(string $header): ResponseInterface;
 
     /**
      * Указание кода состояния.

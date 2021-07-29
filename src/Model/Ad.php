@@ -11,7 +11,7 @@ class Ad
     /**
      * Идентификатор
      *
-     * @var number
+     * @var int
      */
     public $id;
 
@@ -25,14 +25,14 @@ class Ad
     /**
      * Стоимость одного показа
      *
-     * @var number
+     * @var int
      */
     public $price = 0;
 
     /**
      * Лимит показов
      *
-     * @var number
+     * @var int
      */
     public $limit = 0;
 
@@ -46,7 +46,7 @@ class Ad
     /**
      * Количество показов.
      *
-     * @var number
+     * @var int
      */
     public $countShows = 0;
 
