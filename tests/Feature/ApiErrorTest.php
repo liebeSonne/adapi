@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\Feature\ApiTestCase;
+use Tests\Feature\Helper\DataGenerator;
 
 /**
  * Тесты запросов с валидной ошибкой.
@@ -11,83 +12,150 @@ use Tests\Feature\ApiTestCase;
 class ApiErrorTest extends ApiTestCase
 {
     /**
-     * Проверка не успешного запроса добавления с ошибкой параметра текста.
+     * Провайдер данных дляпроверки валидных ошибок на запрос добавления.
      *
+     * первый аргумент - массив параметров запроса: text, banner, price, limit
+     * второй аргумент - массив параметров ожидаемого ответа: code, message
+     *
+     * @retunr array
      */
-    public function testErrorValidOnAddRequestInvalidText()
+    public function dataProviderErrorValidAddRequest(): array
     {
-        $params = [
-            'text' => '',
-            'banner' => 'http://banner.com/banner/image.png',
-            'price' => 300,
-            'limit' => 1000,
+        return [
+            // invalid text
+            [
+                [
+                    'text' => '',
+                    'banner' => 'http://banner.com/banner/image.png',
+                    'price' => 300,
+                    'limit' => 1000,
+                ],
+                [
+                    'code' => 400,
+                    'message' => 'Invalid text',
+                ]
+            ],
+            // invalid banner
+            [
+                [
+                    'text' => 'Ad text',
+                    'banner' => 'invalid',
+                    'price' => 300,
+                    'limit' => 1000,
+                ],
+                [
+                    'code' => 400,
+                    'message' => 'Invalid banner link',
+                ]
+            ],
+            // invalid price
+            [
+                [
+                    'text' => 'Ad text',
+                    'banner' => 'http://banner.com/banner/image.png',
+                    'price' => -100,
+                    'limit' => 1000,
+                ],
+                [
+                    'code' => 400,
+                    'message' => 'Invalid price',
+                ]
+            ],
+            // invalid limit
+            [
+                [
+                    'text' => 'Ad text',
+                    'banner' => 'http://banner.com/banner/image.png',
+                    'price' => 300,
+                    'limit' => -1,
+                ],
+                [
+                    'code' => 400,
+                    'message' => 'Invalid limit',
+                ]
+            ],
         ];
-        $item = $this->helper->prepareAddRequestDataValid($params);
-        // проверка запроса
-        $res = $this->assertIsRequestResponseErrorValid($item);
-        // проверка кода и сообщения
-        $this->assertEquals($res['code'], 400);
-        $this->assertEquals($res['message'], 'Invalid text');
     }
 
     /**
-     * Проверка не успешного запроса добавления с ошибкой параметра баннера.
+     * Проверка валидных ошибок на запросы добавления.
      *
+     * @dataProvider dataProviderErrorValidAddRequest
      */
-    public function testErrorValidOnAddRequestInvalidBanner()
+    public function testErrorValidOnAddRequest($params, $result)
     {
-        $params = [
-            'text' => 'Ad text',
-            'banner' => 'invalid',
-            'price' => 300,
-            'limit' => 1000,
-        ];
         $item = $this->helper->prepareAddRequestDataValid($params);
         // проверка запроса
         $res = $this->assertIsRequestResponseErrorValid($item);
         // проверка кода и сообщения
-        $this->assertEquals($res['code'], 400);
-        $this->assertEquals($res['message'], 'Invalid banner link');
+        $this->assertEquals($res['code'], $result['code']);
+        $this->assertEquals($res['message'], $result['message']);
     }
 
     /**
-     * Проверка не успешного запроса добавления с ошибкой параметра стоимости.
+     * Провайдер данных дляпроверки валидных ошибок на запрос добавления.
      *
-     */
-    public function testErrorValidOnAddRequestInvalidPrice()
-    {
-        $params = [
-            'text' => 'Ad text',
-            'banner' => 'http://banner.com/banner/image.png',
-            'price' => -100,
-            'limit' => 1000,
-        ];
-        $item = $this->helper->prepareAddRequestDataValid($params);
-        // проверка запроса
-        $res = $this->assertIsRequestResponseErrorValid($item);
-        // проверка кода и сообщения
-        $this->assertEquals($res['code'], 400);
-        $this->assertEquals($res['message'], 'Invalid price');
-    }
-
-    /**
-     * Проверка не успешного запроса добавления с ошибкой параметра лимита.
+     * первый аргумент - массив параметров запроса: text, banner, price, limit
+     * второй аргумент - массив параметров ожидаемого ответа: code, message
      *
+     * @retunr array
      */
-    public function testErrorValidOnAddRequestInvalidLimit()
+    public function dataProviderErrorValidEditRequest(): array
     {
-        $params = [
-            'text' => 'Ad text',
-            'banner' => 'http://banner.com/banner/image.png',
-            'price' => 300,
-            'limit' => -1,
+        return [
+            // invalid text
+            [
+                [
+                    'text' => '',
+                    'banner' => 'http://banner.com/banner/image.png',
+                    'price' => 300,
+                    'limit' => 1000,
+                ],
+                [
+                    'code' => 400,
+                    'message' => 'Invalid text',
+                ]
+            ],
+            // invalid banner
+            [
+                [
+                    'text' => 'Ad text',
+                    'banner' => 'invalid',
+                    'price' => 300,
+                    'limit' => 1000,
+                ],
+                [
+                    'code' => 400,
+                    'message' => 'Invalid banner link',
+                ]
+            ],
+            // invalid price
+            [
+                [
+                    'text' => 'Ad text',
+                    'banner' => 'http://banner.com/banner/image.png',
+                    'price' => -100,
+                    'limit' => 1000,
+                ],
+                [
+                    'code' => 400,
+                    'message' => 'Invalid price',
+                ]
+            ],
+            // invalid limit
+            [
+                [
+                    'text' => 'Ad text',
+                    'banner' => 'http://banner.com/banner/image.png',
+                    'price' => 300,
+                    'limit' => -1,
+                ],
+                [
+                    'code' => 400,
+                    'message' => 'Invalid limit',
+                ]
+            ],
         ];
-        $item = $this->helper->prepareAddRequestDataValid($params);
-        // проверка запроса
-        $res = $this->assertIsRequestResponseErrorValid($item);
-        // проверка кода и сообщения
-        $this->assertEquals($res['code'], 400);
-        $this->assertEquals($res['message'], 'Invalid limit');
     }
 
     /**
@@ -97,7 +165,7 @@ class ApiErrorTest extends ApiTestCase
      *
      * @return int
      */
-    protected function addOkForEdit(): int
+    public function testAddOkForEdit(): int
     {
         // нужно добавить, чтоб занать наверняка существующий id
         // add - ok
@@ -116,99 +184,19 @@ class ApiErrorTest extends ApiTestCase
     }
 
     /**
-     * Проверка не успешного запроса редактирования с ошибкой параметра текста.
+     * Проверка валидных ошибок на запросы редактирования.
      *
+     * @dataProvider dataProviderErrorValidEditRequest
+     * @depends testAddOkForEdit
      */
-    public function testErrorValidOnAddEditRequestInvalidText()
+    public function testErrorValidOnEditRequest($params, $result, $id)
     {
-        // add - ok
-        $id = $this->addOkForEdit();
-
-        // edit - error
-        $params = [
-            'text' => '',
-            'banner' => 'http://banner.com/banner/image.png',
-            'price' => 300,
-            'limit' => 1000,
-        ];
         $item = $this->helper->prepareEditRequestDataValid($id, $params);
         // проверка запроса
         $res = $this->assertIsRequestResponseErrorValid($item);
         // проверка кода и сообщения
-        $this->assertEquals($res['code'], 400);
-        $this->assertEquals($res['message'], 'Invalid text');
-    }
-
-    /**
-     * Проверка не успешного запроса редактирования с ошибкой параметра баннера.
-     *
-     */
-    public function testErrorValidOnAddEditRequestInvalidBanner()
-    {
-        // add - ok
-        $id = $this->addOkForEdit();
-
-        // edit - error
-        $params = [
-            'text' => 'Ad text',
-            'banner' => 'invalid',
-            'price' => 300,
-            'limit' => 1000,
-        ];
-        $item = $this->helper->prepareEditRequestDataValid($id, $params);
-        // проверка запроса
-        $res = $this->assertIsRequestResponseErrorValid($item);
-        // проверка кода и сообщения
-        $this->assertEquals($res['code'], 400);
-        $this->assertEquals($res['message'], 'Invalid banner link');
-    }
-
-    /**
-     * Проверка не успешного запроса редактирования с ошибкой параметра стоимости.
-     *
-     */
-    public function testErrorValidOnAddEditRequestInvalidPrice()
-    {
-        // add - ok
-        $id = $this->addOkForEdit();
-
-        // edit - error
-        $params = [
-            'text' => 'Ad text',
-            'banner' => 'http://banner.com/banner/image.png',
-            'price' => -100,
-            'limit' => 1000,
-        ];
-        $item = $this->helper->prepareEditRequestDataValid($id, $params);
-        // проверка запроса
-        $res = $this->assertIsRequestResponseErrorValid($item);
-        // проверка кода и сообщения
-        $this->assertEquals($res['code'], 400);
-        $this->assertEquals($res['message'], 'Invalid price');
-    }
-
-    /**
-     * Проверка не успешного запроса редактирования с ошибкой параметра лимита.
-     *
-     */
-    public function testErrorValidOnAddEditRequestInvalidLimit()
-    {
-        // add - ok
-        $id = $this->addOkForEdit();
-
-        // edit - error
-        $params = [
-            'text' => 'Ad text',
-            'banner' => 'http://banner.com/banner/image.png',
-            'price' => 300,
-            'limit' => -1,
-        ];
-        $item = $this->helper->prepareEditRequestDataValid($id, $params);
-        // проверка запроса
-        $res = $this->assertIsRequestResponseErrorValid($item);
-        // проверка кода и сообщения
-        $this->assertEquals($res['code'], 400);
-        $this->assertEquals($res['message'], 'Invalid limit');
+        $this->assertEquals($res['code'], $result['code']);
+        $this->assertEquals($res['message'], $result['message']);
     }
 
     /**
@@ -241,42 +229,73 @@ class ApiErrorTest extends ApiTestCase
     }
 
     /**
-     * Проверка не успешного GET запроса - отсутствие роута.
+     * Провайдер данных для запросов с ожидаемой валидной ошибкой роута.
      *
+     * первый аргемент: массив парамеров запроса: method, path, options
+     * второй аргумент: массив параметров ожидаемого результата: code, message
+     *
+     * @return array
      */
-    public function testErrorValidOnGetInvalidRoutRequest()
+    public function dataProviderErrorValidRequsetsWithInvalidRout()
     {
-        $item = $this->helper->prepareRequserData('GET', '/ads/invalid');
-        // проверка запроса
-        $res = $this->assertIsRequestResponseErrorValid($item);
-        // проверка кода и сообщения
-        $this->assertEquals($res['code'], 404);
-        $this->assertEquals($res['message'], 'Invalid rout');
+        return [
+            [
+                [
+                    'method' => 'GET', 'path' => '/ads/invalid', 'options' => [],
+                ],
+                [
+                    'code' => 404,
+                    'message' => 'Invalid rout',
+                ]
+            ],
+            [
+                [
+                    'method' => 'POST', 'path' => '/ads/invalid', 'options' => [],
+                ],
+                [
+                    'code' => 404,
+                    'message' => 'Invalid rout',
+                ]
+            ],
+        ];
     }
 
     /**
-     * Проверка не успешного POST запроса - отсутствие ресурса.
-     *
+     * @dataProvider dataProviderErrorValidRequsetsWithInvalidRout
      */
-    public function testErrorValidOnPostInvalidRoutRequest()
+    public function testErrorValidOnRequestInvalidRout($params, $result)
     {
-        $item = $this->helper->prepareRequserData('POST', '/ads/invalid');
+        $item = $this->helper->prepareRequserData($params['method'], $params['path'], $params['options']);
         // проверка запроса
         $res = $this->assertIsRequestResponseErrorValid($item);
         // проверка кода и сообщения
-        $this->assertEquals($res['code'], 404);
-        $this->assertEquals($res['message'], 'Invalid rout');
+        $this->assertEquals($res['code'], $result['code']);
+        $this->assertEquals($res['message'], $result['message']);
     }
 
     /**
-     * Тестирование не успешных запроcв на сгенерированных данных.
+     * Провайдер данных для запросов c валидными ошибками.
      *
+     * первый аргемент: массив параметров запроса: method, path, options
+     *
+     * @return array
      */
-    public function testErrorValidRequestGenerated()
+    public function dataProviderForDataRequestErrorValid()
     {
-        $data = $this->generator->generateArrayAddDataRequestErrorValid();
-        foreach ($data as $item) {
-            $this->assertIsRequestResponseErrorValid($item);
-        }
+        $generator = new DataGenerator();
+        $data = $generator->generateArrayAddDataRequestErrorValid();
+        return array_map(function ($item) {
+            return [$item];
+        }, $data);
+    }
+
+    /**
+     * Тестирование запросов c валидными ошибками на сгенерированных данных.
+     *
+     * @dataProvider dataProviderForDataRequestErrorValid
+     */
+    public function testErrorValidRequestGenerated($item)
+    {
+        $this->assertIsRequestResponseErrorValid($item);
     }
 }
