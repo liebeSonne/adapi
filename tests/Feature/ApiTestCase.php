@@ -16,7 +16,7 @@ use GuzzleHttp\Exception\ServerException;
 class ApiTestCase extends TestCase
 {
     /**
-     * @var GuzzleHttp\Client
+     * @var Client
      */
     protected $client;
 
@@ -32,12 +32,19 @@ class ApiTestCase extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+        if (empty($this->getBaseUrl())) {
+            $this->markTestSkipped(
+                'Не указан базовый путь к тестируемому API.'
+            );
+            return;
+        }
+
         $this->generator = new DataGenerator();
         $this->helper = new ApiHelper();
         $this->client = new Client([
             'base_uri' => $this->getBaseUrl(),
         ]);
-        parent::setUp();
     }
 
     /**
@@ -45,7 +52,7 @@ class ApiTestCase extends TestCase
      */
     public function getBaseUrl()
     {
-        return (string) $_ENV['api_base_url'] ?? '';
+        return (string) ($_ENV['api_base_url'] ?? '');
     }
 
     /**

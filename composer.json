@@ -38,7 +38,7 @@
         "build": [
             "php ./scripts/install.php"
         ],
-        "inspect-php": "./vendor/bin/phpcs -p . --standard=PHPCompatibility --runtime-set testVersion 7.1 --extensions=php --ignore=./vendor",
+        "inspect-php": "./vendor/bin/phpcs -p . --standard=PHPCompatibility --runtime-set testVersion 7.1 --extensions=php --ignore=./vendor,./output",
         "inspect-psr12": "./vendor/bin/phpcs -p . --standard=PSR12 --ignore=./vendor",
         "inspect": [
             "@inspect-php",
@@ -47,17 +47,34 @@
         "phpstan": "./vendor/bin/phpstan analyse src tests public config",
         "phpstan-hard": "./vendor/bin/phpstan analyse -l 6 src tests public config",
         "pslam": "./vendor/bin/psalm",
-        "phpcs": "./vendor/bin/phpcs --standard=PSR12 . --ignore=./vendor",
+        "phpcs": "./vendor/bin/phpcs --standard=PSR12 . --ignore=./vendor,./output",
         "docker-build": "docker build -t liebesonne/adapi .",
         "docker-run": "docker run --name adapi -d -p 8080:8080 liebesonne/adapi",
         "docker-stop": "docker rm -f adapi",
         "phpunit": "./vendor/bin/phpunit",
-        "test": [
+        "test:watch": "phpunit-watcher watch",
+        "test:stat": [
             "@phpcs",
             "@phpstan",
-            "@pslam",
+            "@pslam"
+        ],
+        "test": [
+            "@test:stat",
             "@phpunit"
         ],
-        "test:watch": "phpunit-watcher watch"
+        "test:feature": [
+            "@phpunit tests/Feature/"
+        ],
+        "test:unit": [
+            "@phpunit tests/Unit/"
+        ],
+        "test:coverage-html": [
+            "@putenv XDEBUG_MODE=coverage",
+            "@phpunit --color=always --coverage-html=output/code-coverage/html"
+        ],
+        "test:coverage-text": [
+            "@putenv XDEBUG_MODE=coverage",
+            "@phpunit --color=always --coverage-text=output/code-coverage/cover.txt"
+        ]
     }
 }

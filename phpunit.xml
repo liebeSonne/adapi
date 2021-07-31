@@ -9,6 +9,7 @@
     convertWarningsToExceptions="true"
     processIsolation="false"
     stopOnFailure="false"
+    stderr="true"
 >
     <php>
         <ini name="memory_limit" value="-1"/>
