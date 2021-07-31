@@ -39,9 +39,9 @@ class AdsApi extends ApiBase implements ResourceInterface
     /**
      * Возвращает объект рекламного объявления из параметров запроса.
      *
-     * @return \App\Model\Ad
+     * @return Ad
      */
-    protected function getAdFromRequest()
+    protected function getAdFromRequest(): Ad
     {
         $params = $this->request->getRequestParams();
         $ad = new Ad();
@@ -58,17 +58,11 @@ class AdsApi extends ApiBase implements ResourceInterface
      * Возвращает объект валидатора для объекта записи.
      *
      * @param mixed $item
-     * @return ValidatorInterface|NULL
+     * @return ValidatorInterface
      */
-    protected function getValidator($item): ?ValidatorInterface
+    protected function getAdValidator($item): ValidatorInterface
     {
-        if (!$item) {
-            return null;
-        }
-        if (get_class($item) == Ad::class) {
-            return new AdValidator($item);
-        }
-        return null;
+        return new AdValidator($item);
     }
 
     /**
@@ -83,7 +77,7 @@ class AdsApi extends ApiBase implements ResourceInterface
     {
         $ad = $this->getAdFromRequest();
 
-        $validator = $this->getValidator($ad);
+        $validator = $this->getAdValidator($ad);
 
         if (!$validator->isValid()) {
             $error = $validator->getFirstError();
@@ -125,7 +119,7 @@ class AdsApi extends ApiBase implements ResourceInterface
 
         $ad = $this->getAdFromRequest();
 
-        $validator = $this->getValidator($ad);
+        $validator = $this->getAdValidator($ad);
 
         if (!$validator->isValid()) {
             $error = $validator->getFirstError();

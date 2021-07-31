@@ -14,7 +14,7 @@ class Request implements RequestInterface
      */
     public function getMethod(): string
     {
-        return $_SERVER['REQUEST_METHOD'];
+        return $_SERVER['REQUEST_METHOD'] ?? '';
     }
 
     /**
@@ -41,6 +41,6 @@ class Request implements RequestInterface
      */
     public function getUrl(): string
     {
-        return urldecode(trim($_SERVER['REQUEST_URI'], '/'));
+        return urldecode(trim($_SERVER['REQUEST_URI'] ?? '', '/'));
     }
 }

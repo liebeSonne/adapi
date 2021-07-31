@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Model\Ad;
 use App\Service\DBInterface;
 use App\Repository\Strategy\RelevantStrategyInterface;
-use App\Repository\Strategy\DefaultDBRelevantStrategy;
 
 /**
  * Репозиторий рекламных объявлений.
@@ -137,11 +136,8 @@ class AdsRepository implements AdsRepositoryInterface
     {
         if ($this->relevantStrategy) {
             return $this->relevantStrategy->selectOne();
-        } else {
-            // если нет указанной стратегии - используем стратегию по умолчанию
-            $strategy = new DefaultDBRelevantStrategy($this->db);
-            return $strategy->selectOne();
         }
+        return null;
     }
 
     /**

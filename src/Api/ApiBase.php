@@ -49,4 +49,11 @@ class ApiBase implements ResourceInterface
 
         throw new ApiException('Invalid resource method', 405);
     }
+
+    /**
+     * @param array $args
+     */
+    public function default(array $args = []): void
+    {
+    }
 }

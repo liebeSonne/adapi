@@ -34,7 +34,7 @@ class Config
      */
     public function getDatabse(): string
     {
-        return $this->data['db']['filename'] ?? [];
+        return $this->data['db']['filename'] ?? '';
     }
 
     /**
